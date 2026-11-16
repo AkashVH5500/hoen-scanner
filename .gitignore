@@ -1,0 +1,14 @@
+# Maven build output
+/hoen-scanner/target/
+/hoen-scanner/dependency-reduced-pom.xml
+
+# Java
+*.class
+*.jar
+
+# IDEs and operating systems
+.idea/
+.vscode/
+.DS_Store
+*.iml
+*.log

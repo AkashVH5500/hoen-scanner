@@ -1,175 +1,73 @@
-# 🔍 Hoen Scanner
+# Hoen Scanner — Dropwizard REST API learning project
 
-Hoen Scanner is a lightweight microservice designed to analyze files and detect potential threats using automated scanning techniques. It is built as part of a scalable malware detection architecture and can be integrated into larger cybersecurity platforms for secure file analysis.
+The repository currently contains a small Java / Dropwizard REST API prototype. Despite the repository name, the current source code does **not** scan files, detect malware or perform hotel/flight searches against a live provider.
 
----
+The implemented endpoint accepts a city and returns two fixed demonstration records: a hotel entry and a rental-car entry. This is a simple API exercise that can be extended with real service integrations and validation.
 
-## 📖 Overview
+## Current functionality
 
-The scanner receives files for analysis, performs security checks, and returns scan results through a REST API. It is designed to work as an independent microservice while supporting integration with message queues and backend services.
+- Dropwizard application entry point and configuration.
+- `POST /search` endpoint accepting JSON with a `city` field.
+- JSON response containing two hard-coded sample results.
+- Dropwizard health check endpoint.
 
----
+Example request:
 
-## 🚀 Features
+~~~bash
+curl -X POST http://localhost:8080/search \
+  -H "Content-Type: application/json" \
+  -d '{"city":"Bengaluru"}'
+~~~
 
-* 🔍 File Scanning
-* 🦠 Malware Detection Support
-* ⚡ REST API
-* 📦 Microservice Architecture
-* 🔄 Queue-Based Integration
-* 📊 Scan Status Reporting
-* 📝 Logging
-* 🐳 Docker Support
-* ☁️ Easy Deployment
+The response values are illustrative and are not retrieved from an external API.
 
----
+## Technology
 
-## 🛠️ Technologies Used
+- Java 11 (configured in `pom.xml`)
+- Dropwizard 4.0.5
+- Maven
+- Jersey / JAX-RS
+- Jackson
 
-* Python
-* FastAPI
-* Docker
-* RabbitMQ
-* REST API
-* JSON
-* Logging
+## Project layout
 
----
-
-## 📂 Project Structure
-
-```text
+~~~text
 hoen-scanner/
-│
-├── app/                 # Scanner application
-├── Dockerfile           # Docker configuration
-├── requirements.txt     # Python dependencies
-├── README.md
-└── ...
-```
+└── hoen-scanner/
+    ├── pom.xml
+    ├── config.yml
+    └── src/main/java/com/skyscanner/
+        ├── HoenScannerApplication.java
+        ├── HoenScannerConfiguration.java
+        ├── Search.java
+        ├── SearchResource.java
+        └── SearchResult.java
+~~~
 
----
+## Build and run
 
-## ⚙️ Installation
+Prerequisites: JDK 11 and Maven.
 
-### Clone the Repository
-
-```bash
-git clone https://github.com/AkashVH5500/hoen-scanner.git
-
+~~~bash
 cd hoen-scanner
-```
+mvn clean package
+java -jar target/hoen-scanner-1.0-SNAPSHOT.jar server config.yml
+~~~
 
-### Install Dependencies
+The application listens on port 8080 by default. The health check is available at:
 
-```bash
-pip install -r requirements.txt
-```
+~~~text
+http://localhost:8081/healthcheck
+~~~
 
----
+## Improvements needed
 
-## ▶️ Running the Service
+- Validate that the request contains a non-blank city.
+- Replace hard-coded response entries with a well-defined service or provider integration.
+- Add unit and resource tests for valid, empty and malformed requests.
+- Add structured error responses and request logging.
+- Rename the project or expand its implementation if the intent is to become a real scanner.
 
-Start the scanner locally:
+## Author
 
-```bash
-python main.py
-```
-
-or, if using FastAPI:
-
-```bash
-uvicorn app.main:app --reload
-```
-
----
-
-## 🐳 Running with Docker
-
-Build the Docker image:
-
-```bash
-docker build -t hoen-scanner .
-```
-
-Run the container:
-
-```bash
-docker run -p 8000:8000 hoen-scanner
-```
-
----
-
-## 🔄 Workflow
-
-```text
-Client
-   │
-   ▼
-Upload File
-   │
-   ▼
-Hoen Scanner
-   │
-   ▼
-Threat Analysis
-   │
-   ▼
-Scan Result
-```
-
----
-
-## 📈 Future Improvements
-
-* Multi-engine malware scanning
-* Virus signature updates
-* File hash verification
-* PDF & Office document scanning
-* Email attachment scanning
-* Dashboard for scan history
-* Cloud deployment
-* Kubernetes support
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome.
-
-1. Fork the repository.
-2. Create a feature branch.
-
-```bash
-git checkout -b feature-name
-```
-
-3. Commit your changes.
-
-```bash
-git commit -m "Add new feature"
-```
-
-4. Push your branch.
-
-```bash
-git push origin feature-name
-```
-
-5. Open a Pull Request.
-
----
-
-## 📄 License
-
-This project is intended for educational and research purposes.
-
----
-
-## 👨‍💻 Author
-
-**Akash V Hiremath**
-
-Computer Science Engineering Student | AI & Cybersecurity Enthusiast
-
-GitHub: https://github.com/AkashVH5500
+Akash V Hiremath — [GitHub](https://github.com/AkashVH5500)
